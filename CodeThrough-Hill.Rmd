@@ -1,0 +1,79 @@
+---
+title: "ggformula Package"
+author: "Nicole Hill"
+date: "3/2/2020"
+output:
+    html_document:
+    df_print: paged
+    theme: yeti
+---
+
+
+```{r include = FALSE}
+
+url <- paste0("https://github.com/DS4PS/Data-Science-Class/blob",
+              "/master/DATA/TempeTrafficAccidents.rds?raw=true")
+
+dat <- readRDS(gzcon(url(url)))    
+library(ggformula)
+```
+
+# Intro
+
+ggformula is an intuative and easy to use graphic function package that is perfect for beginners. For more information on the package, visit: https://github.com/ProjectMOSAIC/ggformula
+
+ggformula will be demonstrated using traffic accident data from Tempe Open Data Portal, available at: https://data.tempe.gov/dataset/high-severity-traffic-crashes-1-08
+
+
+# Let's Begin! 
+
+Start by loading or installing the package and importing your data set. 
+
+```{r}
+library(ggformula) # loads the package
+
+head(dat) # displays the first few rows of your data
+```
+
+# Let's Start With A Simple Histogram 
+
+The following code will produce a simple histogram based on the total number of injuries per accident. This histogram will look similar to the bar graphs we created in elementary school. 
+
+```{r}
+gf_histogram (~Totalinjuries, data=dat) # this tells R to create a histogram of total injuries based on our data set, "dat"
+```
+
+# Let's Add Some Color 
+
+Grey is boring! Let's add some color. Notice that you can change the color of the outline and fill.  
+```{r}
+gf_histogram (~Totalinjuries, data=dat, color="green", fill="pink")
+```
+
+# Let's Give It A Title 
+
+All good graphs have a title so that we know what we are looking at. Add a title using the following code: 
+
+```{r}
+gf_histogram (~Totalinjuries, data=dat, color="green", fill="pink") %>% 
+  gf_labs(title="Total Injuries Per Car Accident") # note the %>%...this tells R to pass the data from our first piece of code to the next 
+```
+
+# More Labeling 
+
+R was able to populate some generic X and Y labels for us, but we can finetune these with the following code: 
+
+```{r}
+gf_histogram (~Totalinjuries, data=dat, color="green", fill="pink") %>% 
+  gf_labs(title="Total Injuries Per Car Accident", x="Total Injuries") # the y-axis would be relabeled with y="your label here" 
+```
+
+# Really Make It Shine 
+
+Our histogram has come a long way! Let's do one last thing to make it look more visualy appealing - we can change the width of the bars to make them wider or slimer. Since our data is only spread across a few bars, let's make them wider for a more polished look. 
+
+```{r}
+gf_histogram (~Totalinjuries, data=dat, color="green", fill="pink", binwidth=1) %>% 
+  gf_labs(title="Total Injuries Per Car Accident", x="Total Injuries") #binwidth will determine how wide or slim the bars are...the bigger the number, the bigger the bar.
+```
+
